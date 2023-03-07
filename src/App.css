@@ -1,38 +1,84 @@
-.App {
+h1 {
   text-align: center;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-style: italic;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background: grey;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+#todo-list {
+  width: 500px;
+  margin: 60px auto;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+form,
+.todo {
+  border: 1px solid rgb(15, 26, 61);
+  padding: 10px 20px;
+  margin-bottom: 10px;
+}
+form {
+  margin: 0 auto;
+  width: 580px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+form input {
+  padding: 4px 8px;
+  flex-grow: 1;
+  margin-right: 16px;
+}
+.todo {
+  margin: 2rem auto 0;
+  width: 580px;
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+button {
+  font-size: 16px;
+  background-color: rgb(62, 138, 151);
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+button:hover {
+  background-color: rgb(173, 47, 28);
+}
+button:active {
+  background-color: rgb(130, 35, 21);
+}
+button:focus {
+  outline: 0;
+}
+input[type="text"] {
+  font-size: 20px;
+  font-family: monospace;
+}
+.todo input[type="checkbox"] {
+  transform: scale(1.8) translateY(1px);
+  margin: 0 16px 0 0;
+  cursor: pointer;
+}
+.todo-text input {
+  padding: 4px;
+}
+.todo-text {
+  font-size: 24px;
+  line-height: 24px;
+  margin-bottom: 16px;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.todo-completed {
+  display: flex;
+  margin: 10px 0;
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.todo-actions {
+  display: flex;
+  justify-content: space-between;
 }
