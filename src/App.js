@@ -40,9 +40,13 @@ const App = () => {
   };
 
   // Add the deleteToDo code here
-  const deleteTask = (id) => {
+  const deleteTask = (id, isCompleted) => {
     let updateTask = [...todos].filter((todo) => todo.id !== id);
-    setTodos(updateTask);
+    if (isCompleted) {
+      setTodos(updateTask);
+    } else {
+      alert("Please Complete Your Task First");
+    }
   };
 
   // Add the toggleComplete code here
@@ -109,7 +113,7 @@ const App = () => {
             )}
           </div>
 
-          <button onClick={() => deleteTask(todo.id)}>Delete Task</button>
+          <button onClick={() => deleteTask(todo.id, todo.completed)}>Delete Task</button>
         </div>
       ))}
     </div>
