@@ -1,25 +1,20 @@
 import { useState, useEffect } from "react";
-import "./App.css";
+import { Button, Form } from "react-bootstrap";
+
 const App = () => {
-  const [todos, setTodos] = useState([]);
+  const LOCAL_STORAGE_KEY = "todos";
+
+  const [todos, setTodos] = useState(() => {
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY)) || [];
+  });
   const [todo, setTodo] = useState("");
 
   const [todoEditing, setTodoEditing] = useState(null);
   const [editingText, setEditingText] = useState("");
 
-  const LOCAL_STORAGE_KEY = "todos";
-
-  // Get item on local storage
-  useEffect(() => {
-    const json = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    if (json) setTodos(json);
-  }, []);
-
   // Set item local storage
   useEffect(() => {
-    if (todos.length) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
-    }
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(todos));
   }, [todos]);
 
   // Add the handlesubmit code here
@@ -32,7 +27,7 @@ const App = () => {
       completed: false,
     };
     if (newTodo.text.length > 0) {
-      setTodos([...todos].concat(newTodo));
+      setTodos((prevArray) => [...prevArray, newTodo]);
       setTodo("");
     } else {
       alert("Enter Valid Task Please");
@@ -73,23 +68,32 @@ const App = () => {
   };
 
   return (
-    <div className='App'>
-      <h1>Todo List</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type='text'
-          align='right'
-          placeholder='add new task'
-          value={todo}
-          onChange={(e) => setTodo(e.target.value)}
-        />
-        <button type='submit'>Add Todo</button>
-      </form>
+    <div className='container-md w-75'>
+      <h1 className='text-center mb-4'>Todo List</h1>
+      <Form
+        onSubmit={handleSubmit}
+        className='d-flex flex-column gap-3 mb-5 bg-white shadow p-4 rounded'>
+        <Form.Group>
+          <Form.Label>Add Task</Form.Label>
+          <Form.Control
+            type='text'
+            placeholder='write your new task here'
+            value={todo}
+            onChange={(e) => setTodo(e.target.value)}
+          />
+        </Form.Group>
+
+        <Button
+          variant='success'
+          type='submit'>
+          Add Todo
+        </Button>
+      </Form>
       {todos.map((todo) => (
         <div
-          className='todo'
+          className='d-flex flex-wrap justify-content-between gap-3 mb-4 shadow p-4 rounded'
           key={todo.id}>
-          <div className='todo-text'>
+          <div className='d-flex gap-3'>
             <input
               type='checkbox'
               id='completed'
@@ -97,23 +101,41 @@ const App = () => {
               onChange={() => toggleComplete(todo.id)}
             />
             {todo.id === todoEditing ? (
-              <input
+              <Form.Control
                 type='text'
                 onChange={(e) => setEditingText(e.target.value)}
               />
             ) : (
-              <div>{todo.text}</div>
+              <h5
+                style={{ textTransform: "capitalize" }}
+                className='pt-2'>
+                {todo.text}
+              </h5>
             )}
           </div>
-          <div className='todo-action'>
-            {todo.id === todoEditing ? (
-              <button onClick={() => submitEdits(todo.id)}>Submit Edits</button>
-            ) : (
-              <button onClick={() => setTodoEditing(todo.id)}>Edit</button>
-            )}
-          </div>
+          <div className='d-flex gap-3'>
+            <div className='todo-action'>
+              {todo.id === todoEditing ? (
+                <Button
+                  variant='primary'
+                  onClick={() => submitEdits(todo.id)}>
+                  Submit Edits
+                </Button>
+              ) : (
+                <Button
+                  variant='primary'
+                  onClick={() => setTodoEditing(todo.id)}>
+                  Edit
+                </Button>
+              )}
+            </div>
 
-          <button onClick={() => deleteTask(todo.id, todo.completed)}>Delete Task</button>
+            <Button
+              variant='danger'
+              onClick={() => deleteTask(todo.id, todo.completed)}>
+              Delete Task
+            </Button>
+          </div>
         </div>
       ))}
     </div>
